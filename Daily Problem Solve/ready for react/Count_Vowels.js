@@ -4,7 +4,9 @@
 
 function countVowels(StrValue) {
     let vowels = ['a','e','i','o','u'];
-  console.log(vowels.includes(StrValue))
+    let totalVowelNumber = StrValue.toLowerCase().split('').filter((item)=> vowels.includes(item)).length
+   return totalVowelNumber
+
 }
 
-countVowels('r')
+countVowels('Hello World amar sonar bangla')
