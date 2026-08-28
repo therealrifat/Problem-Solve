@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Firebase Data Write Demo</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 30px; }
+    input, button { padding: 8px 12px; margin: 5px; font-size: 16px; }
+    #msg { font-weight: bold; margin-top: 10px; }
+  </style>
+</head>
+<body>
+
+  <h2>নতুন ডেটা যুক্ত করুন</h2>
+  
+  <input type="text" id="nameInput" placeholder="নাম লিখুন...">
+  <button id="saveBtn">ডেটা সেভ করুন</button>
+
+  <p id="msg"></p>
+
+  <script type="module">
+    // ১. Firestore থেকে addDoc, doc, setDoc ইমপোর্ট করা
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+    // ২. আপনার Firebase Config (আসল মানগুলো এখানে বসাবেন)
+    const firebaseConfig = {
+    apiKey: "AIzaSyAdGFSG41KbqOHpsZm4Rzx0n9OnQ7BmW4I",
+    authDomain: "demoproject-435ed.firebaseapp.com",
+    projectId: "demoproject-435ed",
+    storageBucket: "demoproject-435ed.firebasestorage.app",
+    messagingSenderId: "91333357908",
+    appId: "1:91333357908:web:7a40da91247501fd5918c1",
+    measurementId: "G-ZV5X5CCCBB"
+  };
+
+    // ৩. Firebase ইনিশিয়ালাইজ করা
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const nameInput = document.getElementById("nameInput");
+    const saveBtn = document.getElementById("saveBtn");
+    const msg = document.getElementById("msg");
+
+    // ৪. ডেটা রাইট করার ফাংশন
+    saveBtn.addEventListener("click", async () => {
+      const userName = nameInput.value.trim();
+
+      if (!userName) {
+        msg.style.color = "red";
+        msg.textContent = "দয়া করে একটি নাম লিখুন!";
+        return;
+      }
+
+      msg.style.color = "blue";
+      msg.textContent = "ডেটা সেভ হচ্ছে...";
+
+      try {
+        // পদ্ধতি ১: Auto ID সহ নতুন Document যোগ করা (সুপারিশকৃত)
+        const docRef = await addDoc(collection(db, "01"), {
+          name: userName,
+          createdAt: new Date()
+        });
+
+        /* 
+        // পদ্ধতি ২: নিজস্ব Custom Document ID (যেমন: "02") ব্যবহার করতে চাইলে:
+        await setDoc(doc(db, "01", "02"), {
+          name: userName
+        });
+        */
+
+        console.log("Document saved with ID: ", docRef.id);
+        msg.style.color = "green";
+        msg.textContent = "ডেটা সফলভাবে সেভ হয়েছে!";
+        nameInput.value = ""; // ইনপুট বক্স খালি করা
+
+      } catch (error) {
+        console.error("ডেটা সেভ করতে এরর:", error);
+        msg.style.color = "red";
+        msg.textContent = "ডেটা সেভ করা যায়নি! (Console চেক করুন)";
+      }
+    });
+  </script>
+
+</body>
+</html>
