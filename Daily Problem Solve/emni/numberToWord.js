@@ -17,7 +17,13 @@ function numberToWord(num) {
   let firstDg = Number(EnSprt[0])
   let SecondDg = Number(EnSprt[1])
 
-  return `${coreNumber[firstDg]} দশ ${coreNumber[SecondDg]} ${number}`
+ 
+
+  if(SecondDg===0){
+      return `${coreNumber[firstDg]} দশে ${number}`
+  } 
+
+ return `${coreNumber[firstDg]} দশ ${coreNumber[SecondDg]} ${number}`
 }
 
-console.log(numberToWord(53))
+console.log(numberToWord(50))
