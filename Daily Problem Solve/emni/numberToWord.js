@@ -1,3 +1,5 @@
+let display = document.getElementById('rhymes')
+
 const coreNumber = {
   1: 'এক',
   2: 'দুই',
@@ -17,13 +19,11 @@ function numberToWord(num) {
   let firstDg = Number(EnSprt[0])
   let SecondDg = Number(EnSprt[1])
 
- 
-
   if(SecondDg===0){
-      return `${coreNumber[firstDg]} দশে ${number}`
+      return display.innerText = `${coreNumber[firstDg]} দশে ${number}`
   } 
 
- return `${coreNumber[firstDg]} দশ ${coreNumber[SecondDg]} ${number}`
+ return display.innerText =`${coreNumber[firstDg]} দশ ${coreNumber[SecondDg]} ${number}`
 }
 
-console.log(numberToWord(50))
+(numberToWord(50))
